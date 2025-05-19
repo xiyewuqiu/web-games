@@ -1,4 +1,4 @@
-import { getAssetFromKV } from '@cloudflare/kv-asset-handler'
+import { getAssetFromKV, serveSinglePageApp } from '@cloudflare/kv-asset-handler'
 
 /**
  * 处理程序主函数
@@ -8,7 +8,12 @@ export default {
     try {
       // 获取请求的URL
       const url = new URL(request.url)
-      let options = {}
+      
+      // 配置KV资产处理选项
+      const options = {
+        // 对于SPA应用，使用以下配置
+        mapRequestToAsset: serveSinglePageApp
+      }
 
       // 特殊路径处理
       if (url.pathname.startsWith('/api/')) {
@@ -16,40 +21,20 @@ export default {
         return new Response('API接口尚未实现', { status: 501 })
       }
 
-      // 尝试从KV中获取静态资产
-      const page = await getAssetFromKV({
+      // 从KV获取静态资产
+      return await getAssetFromKV({
         request,
         waitUntil: ctx.waitUntil.bind(ctx),
-        // 使用自动绑定的ASSETS KV命名空间
         ASSET_NAMESPACE: env.ASSETS
       }, options)
-
-      // 返回静态资产
-      return page
+      
     } catch (e) {
-      // 处理错误，如404等
-      if (e.status === 404) {
-        // 对于SPA应用，我们需要返回index.html
-        // 获取index.html内容
-        const url = new URL(request.url)
-        url.pathname = '/'
-        
-        try {
-          const indexRequest = new Request(url.toString(), request)
-          const indexPage = await getAssetFromKV({
-            request: indexRequest,
-            waitUntil: ctx.waitUntil.bind(ctx),
-            // 使用自动绑定的ASSETS KV命名空间
-            ASSET_NAMESPACE: env.ASSETS
-          })
-          
-          return indexPage
-        } catch (indexError) {
-          return new Response('找不到页面', { status: 404 })
-        }
-      }
-
-      return new Response(e.message || '服务器错误', { status: 500 })
+      // 处理错误
+      console.error(e)
+      return new Response('服务器错误: ' + (e.message || '未知错误'), { 
+        status: 500,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      })
     }
   }
 } 

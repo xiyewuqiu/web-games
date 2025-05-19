@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "predeploy": "node scripts/setup-kv.js && npm run build && node scripts/upload-assets.js",
+    "predeploy": "node scripts/predeploy.js",
     "deploy": "wrangler deploy"
   },
   "dependencies": {

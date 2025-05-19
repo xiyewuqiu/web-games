@@ -108,15 +108,13 @@ function updateWranglerConfig(kvId) {
       // 已存在kv_namespaces部分，检查是否包含我们的命名空间
       if (content.includes(`binding = "${KV_NAMESPACE_NAME}"`)) {
         // 更新现有的KV配置
-        content = content.replace(
-          /binding\s*=\s*"ASSETS"\s*id\s*=\s*"[^"]*"/g, 
-          `binding = "ASSETS"\nid = "${kvId}"`
-        );
+        const regex = new RegExp(`\\[\\[kv_namespaces\\]\\][^\\[]*binding\\s*=\\s*"${KV_NAMESPACE_NAME}"[^\\[]*`, 'g');
+        content = content.replace(regex, `[[kv_namespaces]]\nbinding = "${KV_NAMESPACE_NAME}"\nid = "${kvId}"\n`);
       } else {
         // 在kv_namespaces部分添加我们的命名空间
         content = content.replace(
           '[kv_namespaces]',
-          `[kv_namespaces]\n[[kv_namespaces]]\nbinding = "${KV_NAMESPACE_NAME}"\nid = "${kvId}"`
+          `[kv_namespaces]\n\n[[kv_namespaces]]\nbinding = "${KV_NAMESPACE_NAME}"\nid = "${kvId}"`
         );
       }
     } else {
