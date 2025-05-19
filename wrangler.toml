@@ -11,17 +11,7 @@ bucket = "./dist"
 [build]
 command = "npm run build"
 
-# 配置SPA路由
-[site.mounts]
-source = "./dist"
-destination = "/"
-
-# SPA后备配置
-[site.static_error_page]
-default = "/index.html"
-
 # KV命名空间配置
-[kv_namespaces]
 [[kv_namespaces]]
 binding = "ASSETS"
 id = ""  # ID将由setup-kv.js脚本自动填充

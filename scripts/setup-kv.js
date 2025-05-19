@@ -103,27 +103,20 @@ function updateWranglerConfig(kvId) {
   try {
     let content = fs.readFileSync(WRANGLER_CONFIG_PATH, 'utf8');
     
-    // 检查配置文件中是否已有kv_namespaces部分
-    if (content.includes('[kv_namespaces]')) {
-      // 已存在kv_namespaces部分，检查是否包含我们的命名空间
-      if (content.includes(`binding = "${KV_NAMESPACE_NAME}"`)) {
-        // 更新现有的KV配置
-        const regex = new RegExp(`\\[\\[kv_namespaces\\]\\][^\\[]*binding\\s*=\\s*"${KV_NAMESPACE_NAME}"[^\\[]*`, 'g');
-        content = content.replace(regex, `[[kv_namespaces]]\nbinding = "${KV_NAMESPACE_NAME}"\nid = "${kvId}"\n`);
-      } else {
-        // 在kv_namespaces部分添加我们的命名空间
-        content = content.replace(
-          '[kv_namespaces]',
-          `[kv_namespaces]\n\n[[kv_namespaces]]\nbinding = "${KV_NAMESPACE_NAME}"\nid = "${kvId}"`
-        );
-      }
+    // 非常简单直接地更新KV ID
+    if (content.includes(`binding = "${KV_NAMESPACE_NAME}"`)) {
+      // 用新ID替换旧ID或空ID
+      content = content.replace(
+        /binding\s*=\s*"ASSETS"\s*\nid\s*=\s*"[^"]*"/g,
+        `binding = "ASSETS"\nid = "${kvId}"`
+      );
     } else {
-      // 不存在kv_namespaces部分，添加完整的部分
-      content += `\n[kv_namespaces]\n[[kv_namespaces]]\nbinding = "${KV_NAMESPACE_NAME}"\nid = "${kvId}"\n`;
+      console.error('错误: wrangler.toml中未找到ASSETS绑定配置');
+      throw new Error('配置文件格式不正确');
     }
     
     fs.writeFileSync(WRANGLER_CONFIG_PATH, content);
-    console.log(`已更新wrangler.toml配置文件`);
+    console.log(`已更新wrangler.toml配置文件，KV命名空间ID: ${kvId}`);
   } catch (error) {
     console.error('更新wrangler.toml配置文件失败:', error);
     throw error;

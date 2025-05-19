@@ -36,10 +36,23 @@ function runWranglerCommand(command) {
 function readWranglerConfig() {
   try {
     const content = fs.readFileSync(wranglerConfigPath, 'utf8');
-    return toml.parse(content);
+    const config = toml.parse(content);
+    
+    // 直接提取KV命名空间信息
+    if (config.kv_namespaces) {
+      const namespaces = Array.isArray(config.kv_namespaces) 
+        ? config.kv_namespaces
+        : [config.kv_namespaces];
+        
+      console.log('已找到KV命名空间配置:', namespaces);
+      return namespaces;
+    } else {
+      console.log('wrangler.toml中未找到kv_namespaces配置');
+      return [];
+    }
   } catch (error) {
     console.error('读取wrangler.toml配置失败:', error);
-    return null;
+    return [];
   }
 }
 
@@ -73,20 +86,22 @@ function uploadAssets(namespaceId) {
 async function main() {
   try {
     // 读取wrangler.toml配置
-    const config = readWranglerConfig();
-    
-    if (!config || !config.kv_namespaces) {
-      console.error('错误: 未找到KV命名空间配置，请先运行setup-kv.js脚本');
-      process.exit(1);
-    }
+    const namespaces = readWranglerConfig();
     
     // 查找ASSETS命名空间ID
-    const assetsNamespace = config.kv_namespaces.find(ns => ns.binding === 'ASSETS');
+    const assetsNamespace = namespaces.find(ns => ns.binding === 'ASSETS');
     
     if (!assetsNamespace) {
       console.error('错误: 未找到ASSETS KV命名空间配置，请先运行setup-kv.js脚本');
       process.exit(1);
     }
+    
+    if (!assetsNamespace.id) {
+      console.error('错误: ASSETS KV命名空间ID为空，请先运行setup-kv.js脚本');
+      process.exit(1);
+    }
+    
+    console.log(`找到ASSETS KV命名空间ID: ${assetsNamespace.id}`);
     
     // 上传静态资产
     const success = uploadAssets(assetsNamespace.id);

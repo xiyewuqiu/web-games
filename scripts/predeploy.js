@@ -25,12 +25,44 @@ function runCommand(command, errorMessage) {
     const output = execSync(command, { 
       encoding: 'utf8',
       cwd: rootDir,
-      stdio: 'inherit'  // 直接将输出显示在控制台
+      stdio: ['inherit', 'pipe', 'inherit']  // 标准输入和错误直接传递，但捕获标准输出
     });
     return output;
   } catch (error) {
     console.error(`${errorMessage}: ${error.message}`);
     process.exit(1);
+  }
+}
+
+/**
+ * 读取wrangler.toml配置
+ */
+function checkWranglerConfig() {
+  try {
+    const fs = require('fs');
+    const path = require('path');
+    const configPath = path.join(rootDir, 'wrangler.toml');
+    const config = fs.readFileSync(configPath, 'utf8');
+    
+    console.log('\n当前wrangler.toml配置:');
+    console.log('------------------------');
+    console.log(config);
+    console.log('------------------------');
+    
+    // 检查KV ID是否已设置
+    const match = config.match(/binding\s*=\s*"ASSETS"\s*\nid\s*=\s*"([^"]*)"/);
+    if (match) {
+      const id = match[1];
+      if (id) {
+        console.log(`KV命名空间ID已设置: ${id}`);
+      } else {
+        console.log('警告: KV命名空间ID为空');
+      }
+    } else {
+      console.log('警告: 未找到KV命名空间配置');
+    }
+  } catch (error) {
+    console.error('读取配置失败:', error);
   }
 }
 
@@ -41,9 +73,15 @@ async function main() {
   try {
     console.log('==== 开始部署前准备 ====');
     
+    // 检查当前配置
+    checkWranglerConfig();
+    
     // 步骤1: 设置KV命名空间
     console.log('\n==== 步骤1: 设置KV命名空间 ====');
     runCommand('node scripts/setup-kv.js', 'KV命名空间设置失败');
+    
+    // 再次检查配置
+    checkWranglerConfig();
     
     // 步骤2: 构建应用
     console.log('\n==== 步骤2: 构建应用 ====');
