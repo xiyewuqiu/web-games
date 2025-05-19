@@ -9,10 +9,18 @@ export async function onRequest(context) {
       thumbnail: '/images/example-game.jpg',
       category: '休闲',
       path: 'example-game'
+    },
+    {
+      id: 'color-harmony',
+      title: '色彩和谐',
+      description: '一款考验你色彩匹配能力的益智游戏。交换相邻的色块，使其匹配目标模式，获得高分！',
+      thumbnail: '/images/color-harmony.jpg',
+      category: '益智',
+      path: 'color-harmony'
     }
     // 后续可以添加更多游戏
   ];
-  
+
   // 返回JSON格式的游戏数据
   return new Response(JSON.stringify(games), {
     headers: {
