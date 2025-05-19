@@ -40,7 +40,7 @@ function GameDetail() {
   }
 
   // 动态导入游戏组件
-  const GameComponent = React.lazy(() => import(`../../games/${game.path}`))
+  const GameComponent = React.lazy(() => import(`../../games/${game.path}/index.jsx`))
 
   return (
     <div className="game-detail-page">
