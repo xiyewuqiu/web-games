@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "predeploy": "node scripts/setup-kv.js && npm run build && node scripts/upload-assets.js",
     "deploy": "wrangler deploy"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "react-router-dom": "^6.16.0"
   },
   "devDependencies": {
+    "@iarna/toml": "^2.2.5",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",

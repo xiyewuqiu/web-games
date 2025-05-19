@@ -19,7 +19,9 @@ export default {
       // 尝试从KV中获取静态资产
       const page = await getAssetFromKV({
         request,
-        waitUntil: ctx.waitUntil.bind(ctx)
+        waitUntil: ctx.waitUntil.bind(ctx),
+        // 使用自动绑定的ASSETS KV命名空间
+        ASSET_NAMESPACE: env.ASSETS
       }, options)
 
       // 返回静态资产
@@ -36,7 +38,9 @@ export default {
           const indexRequest = new Request(url.toString(), request)
           const indexPage = await getAssetFromKV({
             request: indexRequest,
-            waitUntil: ctx.waitUntil.bind(ctx)
+            waitUntil: ctx.waitUntil.bind(ctx),
+            // 使用自动绑定的ASSETS KV命名空间
+            ASSET_NAMESPACE: env.ASSETS
           })
           
           return indexPage
