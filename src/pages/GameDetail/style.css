@@ -1,0 +1,85 @@
+.game-detail-page {
+  padding-bottom: 32px;
+}
+
+.game-header {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.game-title {
+  font-size: 32px;
+  margin: 0;
+}
+
+.game-info {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.game-description {
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.game-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-label {
+  font-weight: bold;
+  color: #666;
+}
+
+.game-container {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 24px;
+  min-height: 500px;
+}
+
+.error-state {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  color: #666;
+}
+
+.back-button {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-top: 16px;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background-color: #3a80d2;
+  text-decoration: none;
+}

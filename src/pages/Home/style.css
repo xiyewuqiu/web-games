@@ -1,0 +1,24 @@
+.home-page {
+  padding-bottom: 32px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  font-size: 18px;
+  color: #666;
+}
+
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  color: #666;
+}

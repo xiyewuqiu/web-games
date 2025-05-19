@@ -1,0 +1,22 @@
+.about-page {
+  padding-bottom: 32px;
+}
+
+.about-content {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 32px;
+}
+
+.about-section {
+  margin-bottom: 32px;
+}
+
+.about-section:last-child {
+  margin-bottom: 0;
+}
+
+.about-section p {
+  margin-bottom: 16px;
+  line-height: 1.8;
+}

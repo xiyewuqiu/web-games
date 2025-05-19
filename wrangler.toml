@@ -1,0 +1,15 @@
+# Cloudflare Pages 配置
+name = "games-platform"
+compatibility_date = "2023-09-01"
+
+[site]
+bucket = "./dist"
+
+[build]
+command = "npm run build"
+
+[routes]
+  # 将所有请求路由到 index.html，以支持 SPA 路由
+  pattern = "/*"
+  script = ""
+  dest = "/index.html"
