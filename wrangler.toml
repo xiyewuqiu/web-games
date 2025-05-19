@@ -2,9 +2,11 @@
 name = "games-platform"
 compatibility_date = "2023-09-01"
 
+# 静态网站配置
 [site]
 bucket = "./dist"
 
+# 构建配置
 [build]
 command = "npm run build"
 
