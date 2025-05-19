@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "node scripts/predeploy.js",
-    "deploy": "wrangler deploy",
+    "deploy": "npm run predeploy && wrangler deploy",
     "cf-deploy": "node scripts/cf-pages-deploy.js"
   },
   "dependencies": {

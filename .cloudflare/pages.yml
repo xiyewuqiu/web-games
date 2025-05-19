@@ -1,0 +1,9 @@
+# Cloudflare Pages 配置
+name: games-platform
+build:
+  command: npm run build
+deploy:
+  command: bash scripts/cloudflare-pages-deploy.sh
+routes:
+  - pattern: /*
+    script: workers-site/index.js 
