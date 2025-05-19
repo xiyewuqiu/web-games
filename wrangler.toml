@@ -1,5 +1,6 @@
-# Cloudflare Pages 配置
+# Cloudflare Workers 配置
 name = "games-platform"
+main = "workers-site/index.js"
 compatibility_date = "2023-09-01"
 
 # 静态网站配置
