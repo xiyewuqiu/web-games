@@ -8,8 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "node scripts/predeploy.js",
-    "deploy": "npm run predeploy && wrangler deploy",
-    "cf-deploy": "node scripts/cf-pages-deploy.js"
+    "deploy": "wrangler deploy",
+    "cf-deploy": "bash scripts/cloudflare-pages-deploy.sh"
   },
   "dependencies": {
     "@cloudflare/kv-asset-handler": "^0.3.0",

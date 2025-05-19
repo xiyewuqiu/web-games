@@ -3,7 +3,7 @@ name: games-platform
 build:
   command: npm run build
 deploy:
-  command: bash scripts/cloudflare-pages-deploy.sh
+  command: npx wrangler deploy
 routes:
   - pattern: /*
     script: workers-site/index.js 

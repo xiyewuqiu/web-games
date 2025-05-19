@@ -14,4 +14,4 @@ command = "npm run build"
 # KV命名空间配置
 [[kv_namespaces]]
 binding = "ASSETS"
-id = ""  # 警告: 部署前必须运行 'npm run predeploy' 或 'node scripts/setup-kv.js' 来填充此ID
+id = "8f6bffafce894d109d4d930e39e7f474"
